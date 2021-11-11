@@ -24,3 +24,5 @@ Lambdas or '=>' are used when an expression is passed as a parameter
 
 The main reason for using a collection type of IEnumerable instead of List, it's due that List offers
 way too many features that aren't needed for the project, and so it was used IEnumerable.
+
+The variable type of any means that it can be an either string, int, decimal, etcera
