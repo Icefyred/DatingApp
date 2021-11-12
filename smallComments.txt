@@ -26,3 +26,26 @@ The main reason for using a collection type of IEnumerable instead of List, it's
 way too many features that aren't needed for the project, and so it was used IEnumerable.
 
 The variable type of any means that it can be an either string, int, decimal, etcera
+
+When storing passwords in a Database there are at least three different approaches:
+
+Option 1: Store it as simple text. If a possible attacker is able to access the database,
+he/she will be able to get the information of users' password, without needing to resort to 
+algorithm to decrypth the passwords
+
+Option 2: Hash the password, by using hash in a text, an algorithm will create a randomsize string 
+with the original password that the user created, while this seems to be a safe way to protect 
+from an attacker, if different users utilize the same password the hash code will be exactly the same,
+to make matter worse, there's plentora of online dictionaries with hash codes and 
+their respective text password.
+
+Option 3: Hash and salt the password, by using salt, this will randomsize the hash code that was 
+previously created, and this will allow that even if different users have the same text password,
+the resulting hash and salt randomsized string will be different. Even if this isn't a 100% fool 
+proof technique, out of the 3 options above it is the one with the highest safe possibilities
+
+
+BLOB is a binary large object in SQL terms
+
+the using statement in a declaration or initialize of an expression means that when the used class 
+is no longer needed, that it will be disposed correctly, with the dispose().
