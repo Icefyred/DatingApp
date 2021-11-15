@@ -52,3 +52,6 @@ is no longer needed, that it will be disposed correctly, with the dispose().
 
 Whenever there's the forRoot() in the imports dictionaries it means that there's some services
 or components that it needs to initialize along with the  root model
+
+There's two simple ways to highlight a link so the user knows that they're in one of the navigation
+bars either hardcode active in the nav-link class, or assign the routerLinkActive attribute to active
