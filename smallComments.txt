@@ -49,3 +49,6 @@ BLOB is a binary large object in SQL terms
 
 the using statement in a declaration or initialize of an expression means that when the used class 
 is no longer needed, that it will be disposed correctly, with the dispose().
+
+Whenever there's the forRoot() in the imports dictionaries it means that there's some services
+or components that it needs to initialize along with the  root model
