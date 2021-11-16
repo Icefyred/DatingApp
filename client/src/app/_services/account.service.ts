@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import {map} from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 
 //services are injectable
@@ -14,7 +15,8 @@ import { User } from '../_models/user';
 //components are different, when we move from one component to another in angular are destroyed,
 //as soon as they're not used
 export class AccountService {
-  baseUrl = 'https://localhost:5001/api/';
+  //this is to avoid hardcoding the URL string, by using the environment files
+  baseUrl = environment.apiUrl;
 
   //observable to store the user
   //ReplaySubject is a buffer object, it will store the values
