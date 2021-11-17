@@ -7,6 +7,7 @@ using System.Text;
 using API.DTOs;
 using Microsoft.EntityFrameworkCore;
 using API.Interfaces;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -51,7 +52,9 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == loginDto.Username);
+            var user = await _context.Users
+                .Include(p => p.Photos)
+                .SingleOrDefaultAsync(x => x.Username == loginDto.Username);
 
             if (user == null)
             {
@@ -70,7 +73,8 @@ namespace API.Controllers
             }
             return new UserDto{
                 Username = user.Username,
-                Token = _tokenService.CreateTroken(user)
+                Token = _tokenService.CreateTroken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
         }
 
