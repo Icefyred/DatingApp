@@ -15,6 +15,7 @@ namespace API.Extensions {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ILikesRepository, LikesRepository>();
             services.AddScoped<LogUserActivity>();
             //since the project is in the same assembly, since we only have a single project
             //the method AddAutoMapper() requires the typeof(nameOfClass)
