@@ -19,7 +19,8 @@ namespace API.Services {
         public string CreateTroken(AppUser user){
             //adding the claim
             var claims = new List<Claim>{
-                new Claim(JwtRegisteredClaimNames.NameId, user.Username)
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
             };
             //creating the credentials
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
