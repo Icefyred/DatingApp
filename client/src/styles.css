@@ -45,3 +45,11 @@
     padding: 15px 0;
   }
   
+  
+.table > :not(caption) > * > button,
+.btn-info:hover
+{
+    color: #fff;
+    background-color: #0085bb;
+    border-color: #007db0;
+}

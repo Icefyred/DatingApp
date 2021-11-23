@@ -30,6 +30,7 @@ namespace API.Controllers
             _userRepository = userRepository;
         }
 
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         //Since the API is not able to understand that the UserParams is for a query it requires the annotation [FromQuery]
         //Lesson 158: We'll need to populate currentUsername property into the userParams
@@ -37,7 +38,7 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            userParams.CurrentUserName = user.Username;
+            userParams.CurrentUserName = user.UserName;
             if(string.IsNullOrEmpty(userParams.Gender)){
                 userParams.Gender = user.Gender == "male" ? "female" : "male"; 
             }
@@ -47,6 +48,7 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        //[Authorize(Roles = "Member")]
         //api/users/3
         [Authorize]
         [HttpGet("{username}", Name = "GetUser")]
@@ -96,7 +98,7 @@ namespace API.Controllers
             //and will add the photo whenever the thread is safe to go
             if(await _userRepository.SaveAllAsync()){
                 //return _mapper.Map<PhotoDto>(photo); this returns a 200OK  where it should be a 201 Created
-                return CreatedAtRoute("GetUser", new {Username = user.Username}, _mapper.Map<PhotoDto>(photo));
+                return CreatedAtRoute("GetUser", new {Username = user.UserName}, _mapper.Map<PhotoDto>(photo));
             }
             return BadRequest("Problem adding photo");
         }

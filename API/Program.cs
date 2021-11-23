@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,11 +23,13 @@ namespace API
             var services = scope.ServiceProvider;
             try{
                 var context = services.GetRequiredService<DataContext>();
+                var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
                 //this expressions allows the database to automatically update without using the
                 //'dotnet ef database update', and will do so internally when the application
                 //is restarted
                 await context.Database.MigrateAsync();
-                await Seed.SeedUser(context);
+                await Seed.SeedUser(userManager, roleManager);
             }catch(Exception ex){
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error has occurred during migration");

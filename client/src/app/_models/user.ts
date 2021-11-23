@@ -6,6 +6,7 @@ export interface User{
     photoUrl: string;
     knownAs: string;
     gender: string;
+    roles: string[];
 }
 /*
 //allows in the initialization of 'data' to be of type number or string, so in the process of coding allow to be

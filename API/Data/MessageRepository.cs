@@ -46,9 +46,9 @@ namespace API.Data
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(user => user.Recipient.Username == messageParams.Username && user.RecipientDeleted == false),
-                "Outbox" => query.Where(user => user.Sender.Username == messageParams.Username && user.SenderDelete == false),
-                _ => query.Where(user => user.Recipient.Username == messageParams.Username && user.RecipientDeleted == false && user.DateRead == null)
+                "Inbox" => query.Where(user => user.Recipient.UserName == messageParams.Username && user.RecipientDeleted == false),
+                "Outbox" => query.Where(user => user.Sender.UserName == messageParams.Username && user.SenderDelete == false),
+                _ => query.Where(user => user.Recipient.UserName == messageParams.Username && user.RecipientDeleted == false && user.DateRead == null)
             };
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
             return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
@@ -60,15 +60,15 @@ namespace API.Data
             var messages = await _context.Messages
                 .Include(user => user.Sender).ThenInclude(photo => photo.Photos)
                 .Include(user => user.Recipient).ThenInclude(photo => photo.Photos)
-                .Where(message => message.Recipient.Username == currentUsername && message.RecipientDeleted == false
-                && message.Sender.Username == recipientUsername ||
-                message.Recipient.Username == recipientUsername
-                && message.Sender.Username == currentUsername && message.SenderDelete == false
+                .Where(message => message.Recipient.UserName == currentUsername && message.RecipientDeleted == false
+                && message.Sender.UserName == recipientUsername ||
+                message.Recipient.UserName == recipientUsername
+                && message.Sender.UserName == currentUsername && message.SenderDelete == false
                 )
                 .OrderBy(message => message.MessageSent)
                 .ToListAsync();
             //finds if there's any unread messages for the current user that has received from another user
-            var unreadMessages = messages.Where(message => message.DateRead == null && message.Recipient.Username == currentUsername).ToList();
+            var unreadMessages = messages.Where(message => message.DateRead == null && message.Recipient.UserName == currentUsername).ToList();
             //mark them as received
             if(unreadMessages.Any()){
                 foreach (var message in unreadMessages)
