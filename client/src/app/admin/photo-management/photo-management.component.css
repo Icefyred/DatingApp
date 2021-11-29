@@ -1,0 +1,5 @@
+/***  Photo Management Challenge 20. ***/
+.img-thumbnail{
+    height: 150px;
+    min-width: 150px;
+}

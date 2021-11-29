@@ -10,3 +10,7 @@ img.img-thumbnail{
 input[type=file]{
     color: transparent;
 }
+/*** Photo Management Challenge 21. ***/
+.not-approved{
+    opacity: 0.2;
+}

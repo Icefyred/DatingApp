@@ -19,6 +19,8 @@ namespace API.Data{
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups {get; set;}
         public DbSet<Connection> Connections { get; set; }
+        /***** Photo Management Challenge 2. ******/
+        public DbSet<Photo> Photos{get; set;}
         
         protected override void OnModelCreating(ModelBuilder builder){
             //without this it may returns errors when trying to add a migration 
@@ -32,6 +34,9 @@ namespace API.Data{
                 .HasForeignKey(userRole => userRole.RoleId).IsRequired();
 
             builder.Entity<UserLike>().HasKey(k => new {k.SourceUserId, k.LikedUserId});
+
+            /***** Photo Management Challenge 6. ******/
+            builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
 
             //The delete behaviour means that when the linked user gets deleted so does the liked users that were linked to the user
             //IMPORTANT: If using SQL Server, then set the DeleteBehavior to DeleteBehavior.NoAction, otherwise an error will occur during migration

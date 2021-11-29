@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using API.Entities;
@@ -27,6 +28,8 @@ namespace API.Data
             }
 
             foreach(var user in users){
+                /***** Photo Management Challenge 4. ******/
+                user.Photos.First().IsApproved = true;
                 //using var hmac = new HMACSHA512();
                 user.UserName = user.UserName.ToLower();
                 //user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$sw0rd"));

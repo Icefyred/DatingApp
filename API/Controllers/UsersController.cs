@@ -52,9 +52,10 @@ namespace API.Controllers
         //api/users/3
         [Authorize]
         [HttpGet("{username}", Name = "GetUser")]
-        public async Task<ActionResult<MemberDto>> GetUser(string username)
-        {
-            return await _unitOfWork.UserRepository.GetMemberAsync(username);
+        public async Task<ActionResult<MemberDto>> GetUser(string username){
+            var currentUsername = User.GetUsername();
+            return await _unitOfWork.UserRepository
+                .GetMemberAsync(username, isCurrentUser: currentUsername == username);
         }
 
         [HttpPut]
@@ -77,7 +78,7 @@ namespace API.Controllers
         [HttpPost("add-photo")]
         public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
         {
-            //we get te user
+            //gets the user
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
             //get result back from the photo service
@@ -85,22 +86,25 @@ namespace API.Controllers
             //checks if there's an error with it
             if (result.Error != null) return BadRequest(result.Error.Message);
             //create a new photo
-            var photo = new Photo
-            {
+            var photo = new Photo{
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId
             };
+
             //checks to see if the user has any photos in their gallery
+            /**** Photo Management Challenge 13. ****/
+            /*
             if (user.Photos.Count == 0)
             {
                 photo.IsMain = true;
-            }
+            }*/
+
             //adds the photo
             user.Photos.Add(photo);
             //and will add the photo whenever the thread is safe to go
             if (await _unitOfWork.Complete())
             {
-                //return _mapper.Map<PhotoDto>(photo); this returns a 200OK  where it should be a 201 Created
+                //return _mapper.Map<PhotoDto>(photo); this returns a 200 OK  where it should be a 201 Created
                 return CreatedAtRoute("GetUser", new { Username = user.UserName }, _mapper.Map<PhotoDto>(photo));
             }
             return BadRequest("Problem adding photo");

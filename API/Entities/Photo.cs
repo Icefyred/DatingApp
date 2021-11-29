@@ -6,6 +6,8 @@ namespace API.Entities {
         public int Id { get; set; }
         public string Url { get; set; }
         public bool IsMain { get; set; }
+        /***** Photo Management Challenge 1. ******/
+        public bool IsApproved { get; set; }
         public string PublicId { get; set; }
         //this two next properties allow that the photos cannot exist without an assigned user
         //even if there's no functionality of deleting users, if such were to exist,
